@@ -1,0 +1,1 @@
+In this directory the code will save json files retrieved from 'highcharts' of energy-charts
