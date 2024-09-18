@@ -455,7 +455,7 @@ def process_dataframe(df,mapping:dict):
     for col in df.columns:
         if (df[col].isna().sum() > 0.2 * len(df[col])):
             print(f"Warning for col {col} nans > 20\%")
-    df.interpolate(method='linear', limit_direction='both', inplace=True)
+    # df.interpolate(method='linear', limit_direction='both', inplace=True)
 
     return df
 
@@ -481,8 +481,8 @@ def prepare_and_store_power(country, years, area, mapping):
         print(df_i.columns)
         df = pd.concat([df, df_i])
 
-    if area is None: res_name = f"output/{country}_{'power'}_{years[0]}_{years[-1]}.csv"
-    else: res_name = f"output/{country}_{'power'}_{area}_{years[0]}_{years[-1]}.csv"
+    if area is None: res_name = f"data/{country}_{'power'}_{years[0]}_{years[-1]}.csv"
+    else: res_name = f"data/{country}_{'power'}_{area}_{years[0]}_{years[-1]}.csv"
     df.to_csv(res_name)
 
 def prepare_and_store_market(country, years, market, period:None or str, mapping:dict):
@@ -503,8 +503,8 @@ def prepare_and_store_market(country, years, market, period:None or str, mapping
         print(df_i.columns)
         df = pd.concat([df, df_i])
 
-    if period is None: res_name = f"output/{country}_{market}_{years[0]}_{years[-1]}.csv"
-    else: res_name = f"output/{country}_{market}_{period}_{years[0]}_{years[-1]}.csv"
+    if period is None: res_name = f"data/{country}_{market}_{years[0]}_{years[-1]}.csv"
+    else: res_name = f"data/{country}_{market}_{period}_{years[0]}_{years[-1]}.csv"
     df.to_csv(res_name)
 
 def prepare_and_store_weather(country, years, quantity, mapping:dict):
@@ -532,8 +532,8 @@ def prepare_and_store_weather(country, years, quantity, mapping:dict):
                 df_i = check_json_file_for_monthly_data(cache_fpath)
                 df_i=process_dataframe(df_i,mapping=mapping)
                 df = pd.concat([df, df_i])
-    if quantity is None: res_name = f"output/{country}_weather_{years[0]}_{years[-1]}.csv"
-    else: res_name = f"output/{country}_weather_{quantity}_{years[0]}_{years[-1]}.csv"
+    if quantity is None: res_name = f"data/{country}_weather_{years[0]}_{years[-1]}.csv"
+    else: res_name = f"data/{country}_weather_{quantity}_{years[0]}_{years[-1]}.csv"
     df.to_csv(res_name)
 
 
@@ -591,7 +591,7 @@ def main():
         'Wind onshore TenneT':'Wind_Onshore_TenneT',
         'Wind onshore TransnetBW':'Wind_Onshore_TransnetBW'
     }
-    for area in ["public", "tcs_saldo", "total", "entsoe", "sw"]:
+    for area in ["public", "tcs_saldo", "total", "entsoe"]:#, "sw"]:
         prepare_and_store_power(country, years, area, mapping=mapping)
 
     # spot electricity market prices and volumes
